@@ -55,13 +55,17 @@ type Header struct {
 // High level protocol can use chunk stream ID to query the previous header instance.
 func ReadBaseHeader(rbuf Reader) (n int, fmt uint8, csi uint32, err error) {
 	var b byte
+	var x byte
 	b, err = ReadByteFromNetwork(rbuf)
 	if err != nil {
 		return
 	}
 	n = 1
+	x = b
 	fmt = uint8(b >> 6)
 	b = b & 0x3f
+	logger.ModulePrintf(logHandler, log.LOG_LEVEL_DEBUG,
+					"ReadBaseHeader: Format:%d Chunk STream ID:%d (%02X)",fmt,b,x)
 	switch b {
 	case 0:
 		// Chunk stream IDs 64-319 can be encoded in the 2-byte version of this

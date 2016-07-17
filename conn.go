@@ -292,6 +292,7 @@ func (conn *conn) readLoop() {
 		header := &Header{}
 		n, err = header.ReadHeader(conn.br, vfmt, csi, chunkstream.lastHeader)
 		CheckError(err, "ReadHeader")
+		//header.Dump("RTMP_HEAD")
 		if !found {
 			logger.ModulePrintf(logHandler, log.LOG_LEVEL_TRACE, "New stream 2 csi: %d, fmt: %d, header: %+v\n", csi, vfmt, header)
 		}
@@ -525,7 +526,7 @@ func (conn *conn) NewTransactionID() uint32 {
 }
 
 func (conn *conn) received(message *Message) {
-	message.Dump("<<<")
+	//message.Dump("<<<")
 	tmpBuf := make([]byte, 4)
 	var err error
 	var subType byte
